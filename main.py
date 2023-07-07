@@ -8,16 +8,16 @@ from fastapi.staticfiles import StaticFiles
 from models import Command, Result
 
 app = FastAPI()
-app.mount('/static', StaticFiles(directory='static'), name='static')
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 
-@app.get('/', response_class=HTMLResponse)
+@app.get("/", response_class=HTMLResponse)
 async def root():
-    with open('static/index.html') as file:
+    with open("static/index.html") as file:
         return HTMLResponse(file.read())
 
 
-@app.post('/api/command', response_model=Result)
+@app.post("/api/command", response_model=Result)
 async def command(cmd: Command):
     original_cwd = os.getcwd()
     try:
@@ -34,7 +34,7 @@ async def command(cmd: Command):
         returncode = result.returncode
         args = result.args
     except Exception as exc:  # pylint: disable=broad-except
-        stdout = ''
+        stdout = ""
         stderr = str(exc)
         returncode = 1
         args = cmd.args

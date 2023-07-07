@@ -3,7 +3,7 @@ from pydantic import BaseModel
 
 class Command(BaseModel):
     args: list[str]
-    cwd: str = '.'
+    cwd: str = "."
 
 
 class Result(BaseModel):
