@@ -1,0 +1,67 @@
+:root {
+  color-scheme: dark;
+  color: #e0e0e0;
+  background-color: #000000;
+  font-family: Verdana, sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+#terminal {
+  padding: 15px;
+  font-family: monospace;
+  text-align: left;
+  overflow: visible;
+}
+
+.hidden-input {
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 0;
+  border: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  z-index: 1;
+}
+
+#output {
+  word-wrap: break-word;
+  white-space: pre;
+}
+
+.prompt {
+  color: lightgray;
+  font-weight: bold;
+  white-space: pre;
+}
+
+.prompt-location {
+  color: deepskyblue;
+}
+
+.stdout {
+  color: lightgray;
+}
+
+.stderr {
+  color: red;
+}
+
+.cursor {
+  background-color: transparent;
+  position: absolute;
+  left: 15px;
+  white-space: pre;
+  user-select: none;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
