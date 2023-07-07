@@ -13,7 +13,7 @@ app.mount('/static', StaticFiles(directory='static'), name='static')
 
 @app.get('/', response_class=HTMLResponse)
 async def root():
-    with open('index.html') as file:
+    with open('static/index.html') as file:
         return HTMLResponse(file.read())
 
 
