@@ -25,7 +25,7 @@ async function sendCommand(command) {
     return await response.json();
 }
 
-async function updateScreen() {
+function updateScreen() {
     promptLocation.innerText = cwd;
     stdin.innerHTML = currentInput;
     hiddenInput.value = currentInput;
@@ -38,7 +38,7 @@ async function updateScreen() {
     document.scrollingElement.scrollLeft = inputLine.scrollWidth - output.clientWidth;
 }
 
-async function print(stdout = "", stderr = "") {
+function print(stdout = "", stderr = "") {
     const resultLine = document.createElement("span");
     const stdoutElement = document.createElement("span");
     stdoutElement.classList.add("stdout");
@@ -52,9 +52,9 @@ async function print(stdout = "", stderr = "") {
     output.appendChild(document.createElement("br"));
 }
 
-async function onInput() {
+function onInput() {
     currentInput = hiddenInput.value;
-    await updateScreen();
+    updateScreen();
 }
 
 async function onKeyup(event) {
@@ -85,7 +85,7 @@ async function onKeyup(event) {
             historyPos = commandHistory.length;
             const result = await sendCommand(currentInput);
             if (result) {
-                await print(result.stdout, result.stderr);
+                print(result.stdout, result.stderr);
                 cwd = result.cwd;
             }
             inputLine.style.visibility = "visible";
@@ -98,7 +98,7 @@ async function onKeyup(event) {
 async function init() {
     const result = await sendCommand("echo");
     cwd = result.cwd;
-    await updateScreen();
+    updateScreen();
     hiddenInput.focus();
 }
 
