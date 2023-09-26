@@ -10,20 +10,20 @@ from fastapi.staticfiles import StaticFiles
 from models import Command, Result
 
 app = FastAPI()
-app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/static", StaticFiles(directory="./static"), name="static")
 actions = Actions()
 app.add_middleware(ActionsMiddleware, actions=actions)
 CommandView = custom_view("/static/view.html")
 
 
 @app.get("/", response_class=HTMLResponse)
-async def root():
-    with open("static/index.html") as file:
+async def index() -> HTMLResponse:
+    with open("./static/index.html", encoding="utf-8") as file:
         return HTMLResponse(file.read())
 
 
 @app.post("/api/command", response_model=Result)
-async def command(cmd: Command):
+async def command(cmd: Command) -> Result:
     original_cwd = os.getcwd()
     try:
         os.chdir(cmd.cwd)
