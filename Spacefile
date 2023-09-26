@@ -8,3 +8,4 @@ micros:
     primary: true
     run: uvicorn main:app
     dev: uvicorn main:app --reload
+    provide_actions: true

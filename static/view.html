@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Deta Terminal</title>
+    <meta name="description" content="Terminal interface on a Deta Micro." />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="/static/favicon.ico" />
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+
+  <body>
+    <div id="terminal">
+      <!-- <input
+        class="hidden-input"
+        type="text"
+        oninput="onInput();"
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="off"
+        spellcheck="false"
+      /> -->
+      <div id="output"></div>
+      <!-- <div id="input-line">
+        <span class="prompt"><span class="prompt-location"></span><span class="prompt-separator">$ </span></span
+        ><span class="stdin"></span><span class="cursor">_</span>
+      </div> -->
+    </div>
+    <script>
+      function print(stdout = "", stderr = "") {
+        const resultLine = document.createElement("span");
+        const stdoutElement = document.createElement("span");
+        stdoutElement.classList.add("stdout");
+        stdoutElement.innerText = stdout;
+        const stderrElement = document.createElement("span");
+        stderrElement.classList.add("stderr");
+        stderrElement.innerText = stderr;
+        resultLine.appendChild(stdoutElement);
+        resultLine.appendChild(stderrElement);
+        output.appendChild(resultLine);
+        output.appendChild(document.createElement("br"));
+      }
+
+      const output = document.getElementById("output");
+      const params = new URLSearchParams(window.location.search);
+      const input = params.get("input");
+      if (input) {
+        const result = JSON.parse(input);
+        print(result.stdout, result.stderr);
+      } else {
+        print("", "Failed to load response.");
+      }
+    </script>
+  </body>
+</html>

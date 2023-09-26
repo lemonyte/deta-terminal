@@ -1,6 +1,8 @@
 import os
 import subprocess
 
+from deta_space_actions import Actions, ActionsMiddleware, Input, InputType, custom_view
+from deta_space_actions.actions import HandlerInput
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
@@ -9,6 +11,9 @@ from models import Command, Result
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
+actions = Actions()
+app.add_middleware(ActionsMiddleware, actions=actions)
+CommandView = custom_view("/static/view.html")
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -47,6 +52,22 @@ async def command(cmd: Command):
         args=args,
         cwd=new_cwd,
     )
+
+
+@actions.action(
+    title="Run command",
+    inputs=[
+        Input(
+            name="command",
+            type=InputType.STRING,
+            optional=False,
+        ),
+    ],
+)
+async def command_action(payload: HandlerInput) -> CommandView:
+    args = payload.get("command", "").split()
+    result = await command(Command(args=args))
+    return CommandView(result.model_dump())
 
 
 # TODO: output and command history using base
