@@ -2,7 +2,7 @@ import os
 import shlex
 import subprocess
 
-from deta_space_actions import Actions, ActionsMiddleware, Input, InputType, custom_view
+from deta_space_actions import Actions, ActionsMiddleware, DetailView, Input, InputType
 from deta_space_actions.actions import HandlerInput
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
@@ -14,7 +14,7 @@ app = FastAPI()
 app.mount("/static", StaticFiles(directory="./static"), name="static")
 actions = Actions()
 app.add_middleware(ActionsMiddleware, actions=actions)
-CommandView = custom_view("/static/view.html")
+# CommandView = custom_view("/static/view.html")
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -66,9 +66,13 @@ async def command(cmd: Command) -> Result:
         ),
     ],
 )
-async def command_action(payload: HandlerInput) -> CommandView:
+async def command_action(payload: HandlerInput) -> DetailView:
     result = await command(Command(command=payload.get("command", "")))
-    return CommandView(result.model_dump())
+    return DetailView(
+        text=f"{result.stdout}\n{result.stderr}",
+        title=f"{result.cwd}$ {result.command}",
+    )
+    # return CommandView(result.model_dump())
 
 
 # TODO: output and command history using base
