@@ -1,4 +1,5 @@
 import os
+import shlex
 import subprocess
 
 from deta_space_actions import Actions, ActionsMiddleware, Input, InputType, custom_view
@@ -25,10 +26,11 @@ async def index() -> HTMLResponse:
 @app.post("/api/command", response_model=Result)
 async def command(cmd: Command) -> Result:
     original_cwd = os.getcwd()
+    args = shlex.split(cmd.command)
     try:
         os.chdir(cmd.cwd)
         result = subprocess.run(
-            cmd.args,
+            args=args,
             capture_output=True,
             text=True,
             check=False,
@@ -42,13 +44,13 @@ async def command(cmd: Command) -> Result:
         stdout = ""
         stderr = str(exc)
         returncode = 1
-        args = cmd.args
     new_cwd = os.getcwd()
     os.chdir(original_cwd)
     return Result(
         stdout=stdout,
         stderr=stderr,
         returncode=returncode,
+        command=cmd.command,
         args=args,
         cwd=new_cwd,
     )
@@ -65,8 +67,7 @@ async def command(cmd: Command) -> Result:
     ],
 )
 async def command_action(payload: HandlerInput) -> CommandView:
-    args = payload.get("command", "").split()
-    result = await command(Command(args=args))
+    result = await command(Command(command=payload.get("command", "")))
     return CommandView(result.model_dump())
 
 

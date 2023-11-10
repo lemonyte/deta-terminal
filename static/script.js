@@ -18,8 +18,8 @@ async function sendCommand(command) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-            args: args,
-            cwd: cwd,
+            command,
+            cwd,
         }),
     })
     return await response.json();
