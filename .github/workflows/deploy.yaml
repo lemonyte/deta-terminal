@@ -1,8 +1,10 @@
-name: Push to Space
+name: Deploy
 on:
   push:
     branches:
       - main
+
+concurrency: deploy
 
 jobs:
   push:
@@ -10,7 +12,7 @@ jobs:
     environment: Testing
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Push to Space
         uses: neobrains/space-deployment-github-action@v0.5
