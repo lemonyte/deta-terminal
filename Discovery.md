@@ -4,6 +4,7 @@ title: "Terminal"
 tagline: "Access to a Micro's underlying command shell."
 theme_color: "#555555"
 git: "https://github.com/lemonyte/deta-terminal"
+open_code: true
 ---
 
 Terminal gives you access to a Micro's underlying operating system and file system.
