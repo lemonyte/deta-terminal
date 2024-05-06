@@ -1,3 +1,3 @@
-fastapi~=0.110.1
+fastapi~=0.111.0
 uvicorn~=0.29.0
 deta-space-actions[typing] @ git+https://github.com/lemonyte/deta-space-actions@5683591d1fbc5293e534f8e14f2588411d037a2a
