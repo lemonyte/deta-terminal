@@ -1,5 +1,8 @@
 # Deta Terminal
 
+> [!IMPORTANT]  
+> This project was created for Deta Space, a service which no longer exists as of October 17th, 2024.
+
 Access to a Deta Micro's underlying command shell.
 
 This app was created for debugging purposes, and just out of curiosity.
